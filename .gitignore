@@ -1,0 +1,8 @@
+*.pyc
+*~
+__pycache__
+vil_env
+db.sqlite3
+/static
+*.key
+thumbs.db
