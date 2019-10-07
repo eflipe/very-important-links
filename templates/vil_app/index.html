@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>VIL</title>
+  </head>
+  <body>
+    <div class="">
+      {% if categorias %}
+      <ul>
+        {% for cat in categorias %}
+          <li>
+            <a  href="/vil/categoria/{{ cat.slug }}/">{{ cat.name }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+        <strong>No hay categorías.</strong>
+      {% endif %}
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>VIL | {% if categorias %}{{ categorias.name }} {% else %} No existe {% endif %}</title>
+  </head>
+  <body>
+    <div class="">
+      {% if categorias %}
+      <h1>{{ categorias.name }}</h1>
+        {% if categorias.page_set.all %}
+        <ul>
+          {% for pagina in categorias.page_set.all %}
+          <li><a target="_blank" rel="noopener noreferrer" href="{{ pagina.url }}">{{ pagina.title }}</a></li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <strong>No páginas en esta categoría.</strong>
+        {% endif %}
+      {% else %}
+        No existe esta categoría.
+      {% endif %}
+    </div>
+  </body>
+</html>
