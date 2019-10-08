@@ -2,6 +2,7 @@ from vil_app.models import Category, Page
 from django.views import generic
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
 
 
 class CategoryListView(generic.ListView):
@@ -28,8 +29,17 @@ class CategoryCreate(CreateView):
 
 class PageCreate(CreateView):
     model = Page
-    fields = ('title', 'name')
-    success_url = reverse_lazy('index')
+    fields = ('title', 'url')
+    # success_url = reverse_lazy('index')
+    def form_valid(self, form):
+
+        page = form.save(commit=False)
+
+        page.category = get_object_or_404(Category,
+
+                                          slug=self.kwargs.get('slug'))
+
+        return super(PageCreate, self).form_valid(form)
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -41,3 +51,6 @@ class PageCreate(CreateView):
             cleaned_data['url'] = url
 
             return cleaned_data
+
+    def get_success_url(self):
+        return reverse_lazy('vil_app:categoria', kwargs={'slug': self.kwargs['slug']})

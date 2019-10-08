@@ -60,7 +60,7 @@ def populate():
     # print out
     for c in Category.objects.all():
         for p in Page.objects.filter(category=c):
-            print('- {0} - {1} - {2} - {3} - {4} - {5} - {6}'.format(str(c), str(c.views), str(c.likes), str(p), str(p.views), str(p.likes), str(p.published_date)))
+            print('- {0} - {1} - {2} - {3} - {4} - {5} - {6}'.format(str(c), str(c.views), str(c.likes), str(p), str(p.views), str(p.likes), str(p.fecha_agregado)))
 
 
 def add_page(cat, title, url, likes, views=0):
@@ -68,7 +68,7 @@ def add_page(cat, title, url, likes, views=0):
     p.url = url
     p.views = views
     p.likes = likes
-    p.published_date = timezone.now()
+    p.fecha_agregado = timezone.now()
     p.save()
     return p
 
