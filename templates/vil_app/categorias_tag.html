@@ -1,0 +1,20 @@
+<ul>
+{% if categorias %}
+  {% for cat in categorias %}
+    {% if cat == current_category %}
+    <li>
+      <strong>
+        <a  href="{% url 'vil_app:categoria' cat.slug %}">{{ cat.name }}</a>
+      </strong>
+    </li>
+    {% else %}
+    <li>
+      <a  href="{% url 'vil_app:categoria' cat.slug %}">{{ cat.name }}</a>
+    </li>
+    {% endif %}
+
+  {% endfor %}
+{% else %}
+  <li><strong>No hay categorías.</strong></li>
+{% endif %}
+</ul>

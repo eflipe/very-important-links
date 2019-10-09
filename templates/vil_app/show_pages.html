@@ -1,11 +1,11 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>VIL | {% if categorias %}{{ categorias.name }} {% else %} No existe {% endif %}</title>
-  </head>
-  <body>
-    <div class="">
+{% extends 'vil_app/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+ {% if categorias %}{{ categorias.name }} {% else %} No existe {% endif %}
+{% endblock %}
+
+    {% block body_block %}
       {% if categorias %}
       <h1>{{ categorias.name }}</h1>
         {% if categorias.page_set.all %}
@@ -18,10 +18,8 @@
         <strong>No páginas en esta categoría.</strong>
         {% endif %}
         <br>
-        <h3><a href="/vil/categoria/{{categorias.slug}}/add_page/">Add Page</a> </h3>
+        <h3><a href="{% url 'vil_app:add_page' categorias.slug %}">Add Page</a> </h3>
       {% else %}
         No existe esta categoría.
       {% endif %}
-    </div>
-  </body>
-</html>
+    {% endblock %}

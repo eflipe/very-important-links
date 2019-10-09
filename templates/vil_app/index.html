@@ -1,27 +1,22 @@
-<!DOCTYPE html>
+{% extends 'vil_app/base.html' %}
+{% block title_block %}
+Inicio
+{% endblock%}
 
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>VIL</title>
-  </head>
-  <body>
-    <div class="">
-      {% if categorias %}
-      <ul>
-        {% for cat in categorias %}
-          <li>
-            <a  href="/vil/categoria/{{ cat.slug }}/">{{ cat.name }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-      {% else %}
-        <strong>No hay categorías.</strong>
-      {% endif %}
-    </div>
-    <h1>
-      <a href="/vil/categoria/add/">Add New Category</a>
-    </h1>
 
-  </body>
-</html>
+
+{% block body_block %}
+  {% if categorias %}
+  <ul>
+    {% for cat in categorias %}
+      <li>
+        <a  href="{% url 'vil_app:categoria' cat.slug %}">{{ cat.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <strong>No hay categorías.</strong>
+  {% endif %}
+
+
+{% endblock %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load vil_template_tags %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>VIL | {% block title_block %} Very-important-links {% endblock %}</title>
+  </head>
+  <body>
+    <div class="">
+      {% block body_block %}
+      {% endblock %}
+    </div>
+    <div>
+      {% block sidebar_block %}
+          {% get_category_list categorias %} 
+      {% endblock %}
+    </div>
+
+    <hr>
+
+    <div class="">
+      <ul>
+        <li><a href="{% url 'vil_app:add_category' %}">Nueva categoría</li></a>
+        <li><a href="{% url 'vil_app:index' %}">Inicio</a></li>
+        <li><a href="#"></a></li>
+      </ul>
+    </div>
+  </body>
+</html>
