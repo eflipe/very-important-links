@@ -1,0 +1,22 @@
+{% extends 'vil_app/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+Registrarse
+{% endblock %}
+
+{% block body_block %}
+<h1>Registrarse aquí</h1>
+{% if user.is_authenticated %}
+  <strong>Enhorabuena, ya estás registrado.</strong>
+  <a href="{% url 'vil_app:index' %}">HOME</a>
+{% else %}
+  <strong>Ingresar los datos correspondientes</strong>
+  <form class="registration_form" action="" method="post">
+    {% csrf_token %}
+    
+      {{ form.as_p}}
+
+    <input type="submit" name="submit" value="Registrarse, yay!">
+  </form>
+{% endif %}
+{% endblock %}

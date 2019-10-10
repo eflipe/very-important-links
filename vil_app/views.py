@@ -1,4 +1,6 @@
-from vil_app.models import Category, Page
+from vil_app.models import Category, Page, UserProfile
+from django import forms
+from django.contrib.auth.models import User
 from django.views import generic
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
@@ -54,3 +56,11 @@ class PageCreate(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('vil_app:categoria', kwargs={'slug': self.kwargs['slug']})
+
+
+class UserCreate(CreateView):
+    model = User
+    fields = ('username', 'email', 'password')
+    template_name = 'registracion/registracion.html'
+    success_url = reverse_lazy('index')
+    password = forms.CharField(widget=forms.PasswordInput())

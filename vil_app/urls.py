@@ -8,4 +8,5 @@ urlpatterns = [
     path('categoria/add/', views.CategoryCreate.as_view(), name="add_category"),
     path('categoria/<slug:slug>/', views.ShowpagesDetailView.as_view(), name='categoria'),
     path('categoria/<slug:slug>/add_page/', views.PageCreate.as_view(), name='add_page'),
+    path('registrarse/', views.UserCreate.as_view(), name='registrarse'),
 ]

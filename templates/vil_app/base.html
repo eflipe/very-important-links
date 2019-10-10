@@ -13,7 +13,7 @@
     </div>
     <div>
       {% block sidebar_block %}
-          {% get_category_list categorias %} 
+          {% get_category_list categorias %}
       {% endblock %}
     </div>
 
@@ -23,7 +23,7 @@
       <ul>
         <li><a href="{% url 'vil_app:add_category' %}">Nueva categoría</li></a>
         <li><a href="{% url 'vil_app:index' %}">Inicio</a></li>
-        <li><a href="#"></a></li>
+        <li><a href="{% url 'vil_app:registrarse' %}">Sing Up</a></li>
       </ul>
     </div>
   </body>
