@@ -21,9 +21,15 @@
 
     <div class="">
       <ul>
-        <li><a href="{% url 'vil_app:add_category' %}">Nueva categoría</li></a>
         <li><a href="{% url 'vil_app:index' %}">Inicio</a></li>
-        <li><a href="{% url 'vil_app:registrarse' %}">Sing Up</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'vil_app:add_category' %}">Nueva categoría</li></a>
+        <li><a href="{% url 'password_change' %}">Cambiar contraseña</li></a>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+        <li><a href="{% url 'vil_app:registrarse' %}">Sign Up</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+        {% endif %}
       </ul>
     </div>
   </body>

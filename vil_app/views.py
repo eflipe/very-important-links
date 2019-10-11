@@ -1,8 +1,9 @@
 from vil_app.models import Category, Page, UserProfile
-from django import forms
+from vil_app.forms import UserForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 
@@ -60,7 +61,13 @@ class PageCreate(CreateView):
 
 class UserCreate(CreateView):
     model = User
-    fields = ('username', 'email', 'password')
-    template_name = 'registracion/registracion.html'
+
+    form_class = UserCreationForm
+    template_name = 'registration/registracion.html'
     success_url = reverse_lazy('index')
-    password = forms.CharField(widget=forms.PasswordInput())
+
+    def form_valid(self, form):
+
+        form.save
+
+        return super(UserCreate, self).form_valid(form)

@@ -1,0 +1,23 @@
+{% extends 'vil_app/base.html' %}
+{% load staticfiles %}
+{% block title_block %}
+ Ingresar
+{% endblock %}
+
+{% block body_block %}
+<h1>Ingresar aquí</h1>
+{% if user.is_authenticated %}
+  <strong>Enhorabuena, ya estás logeado</strong>
+  <a href="{% url 'vil_app:index' %}">HOME</a>
+{% else %}
+  <strong>Ingresar los datos correspondientes</strong>
+  <form class="" action="" method="post">
+    {% csrf_token %}
+
+    {{ form.as_p}}
+
+    <input type="submit" name="submit" value="Yay!">
+    <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
+  </form>
+{% endif %}
+{% endblock %}
