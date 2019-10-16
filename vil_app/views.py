@@ -6,6 +6,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, FormView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class CategoryListView(generic.ListView):
@@ -24,13 +25,13 @@ class ShowpagesDetailView(generic.DetailView):
     template_name = 'vil_app/show_pages.html'
 
 
-class CategoryCreate(CreateView):
+class CategoryCreate(LoginRequiredMixin, CreateView):
     model = Category
     fields = ('name', )
     success_url = reverse_lazy('index')
 
 
-class PageCreate(CreateView):
+class PageCreate(LoginRequiredMixin, CreateView):
     model = Page
     fields = ('title', 'url')
     # success_url = reverse_lazy('index')
@@ -61,10 +62,9 @@ class PageCreate(CreateView):
 
 class UserCreate(CreateView):
     model = User
-
     form_class = UserCreationForm
     template_name = 'registration/registracion.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('index') # prox: al user profile
 
     def form_valid(self, form):
 

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body_block %}
-<h1>Ingresar aquí</h1>
+<h1>Log in</h1>
 {% if user.is_authenticated %}
   <strong>Enhorabuena, ya estás logeado</strong>
   <a href="{% url 'vil_app:index' %}">HOME</a>
@@ -17,7 +17,7 @@
     {{ form.as_p}}
 
     <input type="submit" name="submit" value="Yay!">
-    <a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a>
   </form>
+  <p><a href="{% url 'password_reset' %}">¿Olvidaste tu contraseña?</a></p>
 {% endif %}
 {% endblock %}

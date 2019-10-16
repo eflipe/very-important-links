@@ -1,6 +1,10 @@
 {% extends 'vil_app/base.html' %}
 {% block title_block %}
-Inicio {{ user.username }}
+  {% if user.is_authenticated  %}
+   Hola, {{ user.username }}
+  {% else %}
+  Inicio
+  {% endif %}
 {% endblock%}
 
 
