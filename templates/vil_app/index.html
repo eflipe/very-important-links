@@ -10,7 +10,7 @@
 
 
 {% block body_block %}
-  {% if categorias %}
+  <!-- {% if categorias %}
   <ul>
     {% for cat in categorias %}
       <li>
@@ -20,7 +20,35 @@
   </ul>
   {% else %}
     <strong>No hay categorías.</strong>
-  {% endif %}
+  {% endif %} -->
+
+<div class="container">
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-6">
+      <div class="card mb-6">
+        <div class="card-body">
+          <h3>Últimas páginas agregadas</h3>
+          <p class="card-text">
+            {% if paginas %}
+            <ul class="list-group">
+              {% for page in paginas %}
+              <li class="list-group-item">
+                <a target="_blank" rel="noopener noreferrer" href="{{ page.url }}">{{ page.title }}</a>
+                <br>
+                <small> Agregado por # el {{ page.fecha_agregado|date:"SHORT_DATE_FORMAT" }} en <span><a href="{% url 'vil_app:categoria' page.category.slug %}">{{ page.category}}</a></span></small>
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <strong>No hay páginas.</strong>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 {% endblock %}

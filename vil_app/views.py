@@ -5,15 +5,38 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views import generic
 from django.views.generic.edit import CreateView, FormView
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+# def index(request):
+#     categorias = Category.objects.order_by('-likes')[:3]  # subset
+#     paginas = Page.objects.order_by('-fecha_agregado')
+#     # frase = FrasesRandom.objects.all()
+#     context_dict = {}
+#     # frase_r = random.choice(frase)
+#     # context_dict['frase'] = frase_r  # template context
+#     context_dict['categorias'] = categorias  # 'categoris' es la key del dict
+#     context_dict['paginas'] = paginas
+#
+#     template = 'vil_app/index.html'
+#     response = render(request, template, context_dict)
+#
+#     return response
+
+
+class PageListView(generic.ListView):
+    model = Page
+    context_object_name = 'paginas'
+    queryset = Page.objects.order_by('-fecha_agregado')
+    template_name = 'vil_app/index.html'
 
 
 class CategoryListView(generic.ListView):
     model = Category
     context_object_name = 'categorias'
     queryset = Category.objects.order_by('-likes')[:5]
-    template_name = 'vil_app/index.html'
+    template_name = 'vil_app/categorias_tag.html'
 
 # entrar por el Category model???
 

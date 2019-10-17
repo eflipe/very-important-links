@@ -1,20 +1,22 @@
-<ul>
+<ul class="nav flex-column">
 {% if categorias %}
   {% for cat in categorias %}
     {% if cat == current_category %}
-    <li>
-      <strong>
-        <a  href="{% url 'vil_app:categoria' cat.slug %}">{{ cat.name }}</a>
-      </strong>
+    <li class="nav-item">
+
+        <a class="nav-link active" href="{% url 'vil_app:categoria' cat.slug %}">
+          <span data-feather="archive"></span>{{ cat.name }}</a>
+
     </li>
     {% else %}
-    <li>
-      <a  href="{% url 'vil_app:categoria' cat.slug %}">{{ cat.name }}</a>
+    <li class="nav-item">
+      <a  class="nav-link" href="{% url 'vil_app:categoria' cat.slug %}">
+        <span data-feather="archive"></span> {{ cat.name }}
+      </a>
     </li>
     {% endif %}
-
   {% endfor %}
 {% else %}
-  <li><strong>No hay categorías.</strong></li>
+  <li class="nav-item"><strong>No hay categorías.</strong></li>
 {% endif %}
 </ul>

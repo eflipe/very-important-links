@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from vil_app import views
 
 urlpatterns = [
-    path('', views.CategoryListView.as_view(), name='index'),
+    path('', views.PageListView.as_view(), name='index'),
     path('vil/', include('vil_app.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
