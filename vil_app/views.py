@@ -58,6 +58,7 @@ class PageCreate(LoginRequiredMixin, CreateView):
     model = Page
     fields = ('title', 'url')
     # success_url = reverse_lazy('index')
+    
     def form_valid(self, form):
 
         page = form.save(commit=False)

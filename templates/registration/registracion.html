@@ -1,22 +1,30 @@
 {% extends 'vil_app/base.html' %}
-{% load staticfiles %}
+{% load crispy_forms_tags %}
+
 {% block title_block %}
 Registrarse
 {% endblock %}
 
 {% block body_block %}
-<h1>Registrarse aquí</h1>
+<div class="jumbotron p-4">
+  <div class="container">
+    <h1 class="jumbotron-heading">Registrate aquí</h1>
+  </div>
+</div>
 {% if user.is_authenticated %}
   <strong>Enhorabuena, ya estás registrado.</strong>
   <a href="{% url 'vil_app:index' %}">HOME</a>
 {% else %}
-  <strong>Ingresar los datos correspondientes</strong>
-  <form class="registration_form" action="" method="post">
+<div class="container">
+  <div class="row">
+   <form class="registration_form" action="" method="post">
     {% csrf_token %}
-    
-      {{ form.as_p}}
 
-    <input type="submit" name="submit" value="Registrarse, yay!">
-  </form>
+      {{ form | crispy }}
+
+    <button type="submit" class="btn btn-primary">Registrarse</button>
+   </form>
+  </div>
+</div>
 {% endif %}
 {% endblock %}

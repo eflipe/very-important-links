@@ -10,7 +10,7 @@
       <h1>{{ categorias.name }}</h1>
         {% if categorias.page_set.all %}
         <ul>
-          {% for pagina in categorias.page_set.all %}
+          {% for pagina in categorias.page_set.all reversed %}
           <li><a target="_blank" rel="noopener noreferrer" href="{{ pagina.url }}">{{ pagina.title }}</a></li>
           {% endfor %}
         </ul>
