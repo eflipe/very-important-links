@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'vil_app',
     'crispy_forms',
+    
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -70,7 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -133,4 +134,11 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+GOOGLE_SEARCH_API_KEY = 'AIzaSyBm_P8EyVYDYCa5_AH_MBx1XiisYuPJsio'
+GOOGLE_SEARCH_ENGINE_ID = '006595794783215861308:7cxdgwwot2d'
+GOOGLE_SEARCH_API_VERSION = 'v1'
+GOOGLE_SEARCH_RESULTS_PER_PAGE = 10
+GOOGLE_SEARCH_MAX_PAGES = 10
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

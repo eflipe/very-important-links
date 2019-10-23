@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from vil_app import views
 
+
 urlpatterns = [
     path('', views.PageListView.as_view(), name='index'),
     path('vil/', include('vil_app.urls')),

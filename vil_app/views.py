@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView, FormView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from yandex_search.yandex_search_1 import run_query
 
 # def index(request):
 #     categorias = Category.objects.order_by('-likes')[:3]  # subset
@@ -23,6 +23,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 #     response = render(request, template, context_dict)
 #
 #     return response
+
+
+# buscador
+def search(request):
+    result_list = []
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:
+            # buscador
+            result_list = run_query(query)
+    return render(request, 'vil_app/search.html', {'result_list': result_list})
 
 
 class PageListView(generic.ListView):
