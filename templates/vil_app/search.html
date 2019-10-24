@@ -11,6 +11,7 @@ Search
     <h1 class="jumotron-heading">VIL buscador</h1>
   </div>
 </div>
+{% if user.is_authenticated %}
 <div>
   <form class="form-inline mt-3" id="user-form" method="post" action="">
     {% csrf_token %}
@@ -44,4 +45,5 @@ Search
    </div>
   {% endif %}
 </div>
-  {% endblock %}
+{% endif %}
+{% endblock %}

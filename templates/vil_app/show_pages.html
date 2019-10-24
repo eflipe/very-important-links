@@ -18,7 +18,10 @@
         <strong>No páginas en esta categoría.</strong>
         {% endif %}
         <br>
-        <h3><a href="{% url 'vil_app:add_page' categorias.slug %}">Add Page</a> </h3>
+        <h3><a href="{% url 'vil_app:add_page' categorias.slug %}">Agregar una nueva página.</a> </h3>
+        <br>
+
+
       {% else %}
         No existe esta categoría.
       {% endif %}

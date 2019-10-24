@@ -30,7 +30,7 @@
                   {% if user.is_authenticated %}
                   <!-- <li class="nav-item "><a class="nav-link" href="">Ver perfil</a></li> -->
                   <li class="nav-item"><a class="nav-link" href="{% url 'vil_app:add_category' %}">Nueva categoría</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{% url 'vil_app:search' %}">Buscador</a></li>
+
                   <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
 
                   {% else %}
@@ -50,6 +50,7 @@
                 <!-- <a class="dropdown-item" href="">Perfil</a>
                 <a class="dropdown-item" href="">Agregar frase random</a> -->
                 <a class="dropdown-item" href="{% url 'password_change' %}">Cambiar contraseña</a>
+                <a class="dropdown-item" href="{% url 'vil_app:profile' user.username %}">Ver perfil</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'logout' %}">Salir</a>
               </div>

@@ -1,0 +1,45 @@
+{% extends 'vil_app/base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}Perfil de {{ user.username }}{% endblock %}
+{% block body_block %}
+
+<div class="jumbotron p-4">
+  <div class="container">
+    <h1 class="jumbotron-heading">{{selecteduser.username}}</h1>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+
+    {% if userprofile.picture %}
+
+      <img src="{{ MEDIA_URL }}{{ userprofile.picture }}" width="300" height="300" alt="{{selecteduser.username}}" />
+    {% else %}
+      <img width="256" height="256" src="http://lorempixel.com/256/256/people/" alt="{{selecteduser.username}}" />
+    {% endif %}
+
+  </div>
+</div>
+<br>
+<br>
+    <div class="container">
+     <div class="row">
+    <div>
+      {% if selecteduser.username == user.username %}
+      <form method="post" action="." enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{ form | crispy}}
+        <input type="submit" value="Update" class="btn btn-success" />
+      </form>
+      {% else %}
+      <p><strong>Website:</strong> <a href="{{userprofile.website}}">
+          {{userprofile.website}}</a></p>
+      {% endif %}
+    </div>
+    <div id="edit_profile"></div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,13 +1,15 @@
 from vil_app.models import Category, Page, UserProfile
-from vil_app.forms import UserForm
+from vil_app.forms import UserProfileForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.views import generic
-from django.views.generic.edit import CreateView, FormView
+from django.views import generic, View
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from yandex_search.yandex_search_1 import run_query
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # def index(request):
 #     categorias = Category.objects.order_by('-likes')[:3]  # subset
@@ -27,13 +29,14 @@ from yandex_search.yandex_search_1 import run_query
 
 # buscador
 def search(request):
-    result_list = []
+    context_dict = {}
     if request.method == 'POST':
         query = request.POST['query'].strip()
         if query:
-            # buscador
-            result_list = run_query(query)
-    return render(request, 'vil_app/search.html', {'result_list': result_list})
+            context_dict['result_list'] = run_query(query)
+            context_dict['query'] = query
+
+    return render(request, 'vil_app/search.html', context_dict)
 
 
 class PageListView(generic.ListView):
@@ -106,3 +109,40 @@ class UserCreate(CreateView):
         form.save
 
         return super(UserCreate, self).form_valid(form)
+
+
+class ProfileView(View):
+    def get_user_details(self, username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return redirect('index')
+
+        userprofile = UserProfile.objects.get_or_create(user=user)[0]
+        form = UserProfileForm({'website': userprofile.website,
+                                'picture': userprofile.picture})
+        return(user, userprofile, form)
+
+    @method_decorator(login_required)
+    def get(self, request, username):
+        (user, userprofile, form) = self.get_user_details(username)
+        return render(request, 'vil_app/profile.html',
+                               {'userprofile': userprofile,
+                                   'selecteduser': user,
+                                   'form': form})
+
+    @method_decorator(login_required)
+    def post(self, request, username):
+        (user, userprofile, form) = self.get_user_details(username)
+        form = UserProfileForm(request.POST, request.FILES, instance=userprofile)
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('vil_app:profile', username=username)
+            # reverse_lazy('vil_app:profile', kwargs={'username': self.kwargs['username']})
+        else:
+            print(form.errors)
+
+        return render(request, 'vil_app/profile.html',
+                      {'userprofile': userprofile,
+                       'selecteduser': user,
+                       'form': form})
