@@ -6,10 +6,12 @@ app_name = 'vil_app'
 
 urlpatterns = [
     path('', views.PageListView.as_view(), name='index'),
-    path('search/', views.search, name='search'),
+    # ('search/', views.search, name='search'),
     path('categoria/add/', views.CategoryCreate.as_view(), name="add_category"),
-    path('categoria/<slug:slug>/', views.ShowpagesDetailView.as_view(), name='categoria'),
+    #path('categoria/<slug:slug>/', views.ShowpagesDetailView.as_view(), name='categoria'),
+    path('categoria/<slug:slug>/', views.ShowCategoryView.as_view(), name='categoria'),
     path('categoria/<slug:slug>/add_page/', views.PageCreate.as_view(), name='add_page'),
     path('registrarse/', views.UserCreate.as_view(), name='registrarse'),
     path('profile/<username>/', ProfileView.as_view(), name='profile'),
+    path('search_add_page/', views.SearchAddPageView.as_view(), name='search_add_page'),
 ]

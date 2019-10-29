@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from yandex_search.yandex_search_1 import run_query
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse
 
 # def index(request):
 #     categorias = Category.objects.order_by('-likes')[:3]  # subset
@@ -28,15 +29,62 @@ from django.utils.decorators import method_decorator
 
 
 # buscador
-def search(request):
-    context_dict = {}
-    if request.method == 'POST':
+# def search(request, slug):
+#
+#     context_dict = {}
+#     if request.method == 'POST':
+#         category = Category.objects.get(slug=slug)
+#         context_dict['categorias'] = category
+#         query = request.POST['query'].strip()
+#         if query:
+#             context_dict['result_list'] = run_query(query)
+#             context_dict['query'] = query
+#
+#
+#     return render(request, 'vil_app/show_pages.html', context_dict)
+# def post(self, request, slug):
+#         context_dict = self.create_context_dict(slug)
+#         query = request.POST['query'].strip()
+#
+#         if query:
+#             context_dict['result_list'] = run_query(query)
+#             context_dict['query'] = query
+#
+#         return render(request, 'vil_app/show_pages.html', context_dict)
+
+class ShowCategoryView(View):
+    def create_context_dict(self, slug):
+        """
+        A helper method that was created to demonstrate the power of class-based views.
+        You can reuse this method in the get() and post() methods!
+        """
+        context_dict = {}
+
+        try:
+            category = Category.objects.get(slug=slug)
+            pages = Page.objects.filter(category=category)
+
+            context_dict['pages'] = pages
+            context_dict['categorias'] = category
+        except Category.DoesNotExist:
+            context_dict['category'] = None
+            context_dict['pages'] = None
+
+        return context_dict
+
+    def get(self, request, slug):
+        context_dict = self.create_context_dict(slug)
+        return render(request, 'vil_app/show_pages.html', context_dict)
+
+    def post(self, request, slug):
+        context_dict = self.create_context_dict(slug)
         query = request.POST['query'].strip()
+
         if query:
             context_dict['result_list'] = run_query(query)
             context_dict['query'] = query
 
-    return render(request, 'vil_app/search.html', context_dict)
+        return render(request, 'vil_app/show_pages.html', context_dict)
 
 
 class PageListView(generic.ListView):
@@ -52,14 +100,12 @@ class CategoryListView(generic.ListView):
     queryset = Category.objects.order_by('-likes')[:5]
     template_name = 'vil_app/categorias_tag.html'
 
-# entrar por el Category model???
 
-
-class ShowpagesDetailView(generic.DetailView):
-    model = Category
-    # queryset = Category.objects.get(slug=pk)
-    context_object_name = 'categorias'
-    template_name = 'vil_app/show_pages.html'
+# class ShowpagesDetailView(generic.DetailView):
+#     model = Category
+#     # queryset = Category.objects.get(slug=pk)
+#     context_object_name = 'categorias'
+#     template_name = 'vil_app/show_pages.html'
 
 
 class CategoryCreate(LoginRequiredMixin, CreateView):
@@ -146,3 +192,25 @@ class ProfileView(View):
                       {'userprofile': userprofile,
                        'selecteduser': user,
                        'form': form})
+
+
+class SearchAddPageView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        category_id = request.GET['category_id']
+        title = request.GET['title']
+        url = request.GET['url']
+
+        try:
+            category = Category.objects.get(id=int(category_id))
+        except Category.DoesNotExist:
+            return HttpResponse('Error - category not found.')
+        except ValueError:
+            return HttpResponse('Error - bad category ID.')
+
+        p = Page.objects.get_or_create(category=category,
+                                       title=title,
+                                       url=url)
+
+        pages = Page.objects.filter(category=category)
+        return render(request, 'vil_app/page_listing.html', {'pages': pages})

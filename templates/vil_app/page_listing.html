@@ -1,0 +1,9 @@
+{% if pages %}
+<ul>
+  {% for page in pages reversed %}
+  <li><a target="_blank" rel="noopener noreferrer" href="{{ page.url }}">{{ page.title }}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<strong>No hay páginas en esta categoría.</strong>
+{% endif %}
