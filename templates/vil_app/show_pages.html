@@ -5,76 +5,91 @@
  {% if categorias %}{{ categorias.name }} {% else %} No existe {% endif %}
 {% endblock %}
 
-    {% block body_block %}
-      {% if categorias %}
-      <h1>{{ categorias.name }}</h1>
-      <div id="page-listing">
-        {% if categorias.page_set.all %}
-        <ul>
-          {% for pagina in categorias.page_set.all reversed %}
-          <li><a target="_blank" rel="noopener noreferrer" href="{{ pagina.url }}">{{ pagina.title }}</a></li>
-          {% endfor %}
-        </ul>
-        {% else %}
-        <strong>No hay páginas en esta categoría.</strong>
-        {% endif %}
+{% block body_block %}
+<div class="container">
+  <div class="row justify-content-center mt-3">
+    <div class="col-md-6">
+      <div class="card mb-6">
+        <div class="card-body">
+          {% if categorias %}
+          <h3>{{ categorias.name }}</h3>
+          <p class="card-text">
+            <ul class="list-group" id="page-listing">
+              {% if categorias.page_set.all %}
+              {% for page in categorias.page_set.all reversed %}
+              <li class="list-group-item">
+                <a target="_blank" rel="noopener noreferrer" href="{{ page.url }}">{{ page.title }}</a>
+                <br>
+                <small> Agregado por {% if page.created_by %}{{ page.created_by.username }}{% else %} Anónimo{% endif %} el {{ page.fecha_agregado|date:"SHORT_DATE_FORMAT" }}</small>
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <strong>No hay páginas en esta categoría.</strong>
+            {% endif %}
+          </p>
         </div>
+      </div>
+      {% if user.is_authenticated %}
+      <br>
+      <button type="button" class="btn btn-default">
+        <a class="btn btn-primary" href="{% url 'vil_app:add_page' categorias.slug %}">Agregar una nueva página.</a>
+      </button>
+      <br><br>
+      <h3>Usar buscador:</h3>
 
-        {% if user.is_authenticated %}
-        <br>
-        <h3><a href="{% url 'vil_app:add_page' categorias.slug %}">Agregar una nueva página.</a> </h3>
-        <br>
-        <h3>Usar buscador:</h3>
-        <br>
+      <div>
         <div>
           <div>
-            <div>
-              <form class="form-inline mt-3" id="user-form" method="post" action="">
-                {% csrf_token %}
+            <form class="form-inline mt-3" id="user-form" method="post" action="">
+              {% csrf_token %}
 
-                <div class="form-group ">
-                  <input class="form-control" type="text" size="50" name="query" id="query" value="{{ query }}" />
+              <div class="form-group ">
+                <input class="form-control" type="text" size="50" name="query" id="query" value="{{ query }}" />
+              </div>
+
+              <button class="btn btn-primary" type="submit" name="submit">Search</button>
+            </form>
+          </div>
+          <div>
+            {% if result_list %}
+            <br>
+            <h2>Resultados: </h2>
+            <br>
+             <div class="list-group">
+              {% for result in result_list %}
+                <div class="list-group-item">
+                  <h3 class="list-group-item-heading">
+                    <a target="_blank" rel="noopener noreferrer" href="{{ result.link }}">
+                      {{ result.title|safe|escape }}
+                    </a>
+                    <button class="btn btn-info btn-sm vil-page-add"
+                            type="button"
+                            data-categoryid="{{ categorias.id }}"
+                            data-title="{{ result.title }}"
+                            data-url="{{ result.link }}">
+                        Agregar +
+                    </button>
+                  </h3>
+                  <p class="list-group-item-text">
+                    {{ result.summary|safe|escape }}
+                  </p>
                 </div>
-
-                <button class="btn btn-primary" type="submit" name="submit">Search</button>
-              </form>
-            </div>
-            <div>
-              {% if result_list %}
-              <br>
-              <h2>Resultados: </h2>
-              <br>
-
-               <div class="list-group">
-                {% for result in result_list %}
-                  <div class="list-group-item">
-                    <h3 class="list-group-item-heading">
-                      <a target="_blank" rel="noopener noreferrer" href="{{ result.link }}">
-                        {{ result.title|safe|escape }}
-                      </a>
-                      <button class="btn btn-info btn-sm vil-page-add"
-                              type="button"
-                              data-categoryid="{{ categorias.id }}"
-                              data-title="{{ result.title }}"
-                              data-url="{{ result.link }}">
-                          Agregar +
-                      </button>
-
-                    </h3>
-                    <p class="list-group-item-text">
-                      {{ result.summary|safe|escape }}
-                    </p>
-                  </div>
-                {% endfor %}
-               </div>
-              {% endif %}
-            </div>
+              {% endfor %}
+             </div>
             {% endif %}
           </div>
-
+          {% endif %}
         </div>
 
-      {% else %}
-        No existe esta categoría.
-      {% endif %}
-    {% endblock %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+  {% else %}
+    No existe esta categoría.
+  {% endif %}
+{% endblock %}

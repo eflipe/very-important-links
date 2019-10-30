@@ -28,6 +28,7 @@ class Page(models.Model):
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
     fecha_agregado = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+    created_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     # published_date = models.DateTimeField(blank=True, null=True)
     #
     # def publish(self):

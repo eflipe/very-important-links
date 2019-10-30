@@ -1,14 +1,15 @@
+from yandex_search.yandex_search_1 import run_query
 from vil_app.models import Category, Page, UserProfile
 from vil_app.forms import UserProfileForm
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views import generic, View
 from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
-from yandex_search.yandex_search_1 import run_query
-from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 
@@ -111,7 +112,10 @@ class CategoryListView(generic.ListView):
 class CategoryCreate(LoginRequiredMixin, CreateView):
     model = Category
     fields = ('name', )
-    success_url = reverse_lazy('index')
+    # success_url = reverse_lazy('index')
+
+    def get_success_url(self):
+        return reverse_lazy('vil_app:categoria', kwargs={'slug': self.object.slug})
 
 
 class PageCreate(LoginRequiredMixin, CreateView):
@@ -126,6 +130,7 @@ class PageCreate(LoginRequiredMixin, CreateView):
         page.category = get_object_or_404(Category,
 
                                           slug=self.kwargs.get('slug'))
+        page.created_by = self.request.user
 
         return super(PageCreate, self).form_valid(form)
 
@@ -144,17 +149,41 @@ class PageCreate(LoginRequiredMixin, CreateView):
         return reverse_lazy('vil_app:categoria', kwargs={'slug': self.kwargs['slug']})
 
 
-class UserCreate(CreateView):
-    model = User
-    form_class = UserCreationForm
-    template_name = 'registration/registracion.html'
-    success_url = reverse_lazy('index') # prox: al user profile
+# class UserCreate(CreateView):
+#     model = User
+#     form_class = UserCreationForm
+#     template_name = 'registration/registracion.html'
+#     success_url = reverse_lazy('index') # prox: al user profile
+#
+#     def form_valid(self, form):
+#
+#         form.save
+#
+#         return super(UserCreate, self).form_valid(form)
 
-    def form_valid(self, form):
 
-        form.save
+class UserCreate(View):
+    def get(self, request):
+        form = UserCreationForm()
+        context_dict = {'form': form}
+        return render(request, 'registration/registracion.html', context_dict)
 
-        return super(UserCreate, self).form_valid(form)
+    def post(self, request):
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            user = authenticate(username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password1'],
+                                )
+            login(request, user)
+
+            return redirect('vil_app:profile', username=user.username)
+        else:
+            print(form.errors)
+
+        context_dict = {'form': form}
+        return render(request, 'registration/registracion.html', context_dict)
 
 
 class ProfileView(View):

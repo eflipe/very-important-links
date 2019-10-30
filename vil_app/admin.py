@@ -4,7 +4,7 @@ from vil_app.models import Category, Page, UserProfile
 
 
 class PageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'url')
+    list_display = ('title', 'category', 'url', 'created_by')
 
 
 class CategoryAdmin(admin.ModelAdmin):

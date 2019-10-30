@@ -10,18 +10,6 @@
 
 
 {% block body_block %}
-  <!-- {% if categorias %}
-  <ul>
-    {% for cat in categorias %}
-      <li>
-        <a  href="{% url 'vil_app:categoria' cat.slug %}">{{ cat.name }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-    <strong>No hay categorías.</strong>
-  {% endif %} -->
-
 <div class="container">
   <div class="row justify-content-center mt-3">
     <div class="col-md-6">
@@ -35,7 +23,7 @@
               <li class="list-group-item">
                 <a target="_blank" rel="noopener noreferrer" href="{{ page.url }}">{{ page.title }}</a>
                 <br>
-                <small> Agregado por # el {{ page.fecha_agregado|date:"SHORT_DATE_FORMAT" }} en <span><a href="{% url 'vil_app:categoria' page.category.slug %}">{{ page.category}}</a></span></small>
+                <small> Agregado por {% if page.created_by %}{{ page.created_by.username }}{% else %}Anónimo{% endif %} el {{ page.fecha_agregado|date:"SHORT_DATE_FORMAT" }} en <span><a href="{% url 'vil_app:categoria' page.category.slug %}">{{ page.category}}</a></span></small>
               </li>
               {% endfor %}
             </ul>
