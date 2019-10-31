@@ -40,7 +40,11 @@ def populate():
         {'title': 'DELROY EDWARDS - SLOWED DOWN FUNK VOL. I',
          'url': 'https://www.youtube.com/watch?v=xpTB4dp6p1g',
          'views': 222,
-         'likes': 5, }
+         'likes': 5, },
+        {'title': 'R y a n C e l s i u s ° U_SCARE_ME.MP4',
+            'url': 'https://soundcloud.com/ryan-celsius/sets/u_scare_me-mp4',
+            'views': 222,
+            'likes': 15, }
         ]
     otros_etc = [
         {'title': 'Learn Python in 10 Minutes',

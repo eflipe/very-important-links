@@ -5,7 +5,25 @@ import sys
 import yandex_search.__init__ as yandex_search
 
 API_USER = 'infelipe'
-API_KEY = '03.760306854:e586732429bc5de4f356e1633e231be0'
+# API_KEY = '03.760306854:e586732429bc5de4f356e1633e231be0'
+
+def read_yandex_key():
+    yandex_api_key = None
+
+    try:
+        with open('yandex.key', 'r') as f:
+            yandex_api_key = f.readline().strip()
+    except:
+        try:
+            with open('../yandex.key', 'r') as f:
+                yandex_api_key = f.readline().strip()
+        except:
+            raise IOError('yandex.key file not found!')
+
+    if not yandex_api_key:
+        raise KeyError('Bing key not found.')
+
+    return yandex_api_key
 
 
 # def run_query(query):
@@ -16,6 +34,7 @@ API_KEY = '03.760306854:e586732429bc5de4f356e1633e231be0'
 #         serp.append(result)
 #     return serp
 def run_query(query):
+    API_KEY = read_yandex_key()
     yandex = yandex_search.Yandex(api_user=API_USER, api_key=API_KEY)
     search_results = yandex.search(query).items
     results = []
@@ -42,23 +61,6 @@ if __name__ == '__main__':
 
 #
 #
-# def read_yandex_key():
-#     yandex_api_key = None
-#
-#     try:
-#         with open('yandex.key', 'r') as f:
-#             yandex_api_key = f.readline().strip()
-#     except:
-#         try:
-#             with open('../yandex.key', 'r') as f:
-#                 yandex_api_key = f.readline().strip()
-#         except:
-#             raise IOError('yandex.key file not found!')
-#
-#     if not yandex_api_key:
-#         raise KeyError('Bing key not found.')
-#
-#     return yandex_api_key
 #
 #
 # def run_query(search_terms):

@@ -239,7 +239,8 @@ class SearchAddPageView(View):
 
         p = Page.objects.get_or_create(category=category,
                                        title=title,
-                                       url=url)
+                                       url=url,
+                                       created_by=request.user)
 
         pages = Page.objects.filter(category=category)
         return render(request, 'vil_app/page_listing.html', {'pages': pages})
