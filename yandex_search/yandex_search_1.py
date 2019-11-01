@@ -7,6 +7,7 @@ import yandex_search.__init__ as yandex_search
 API_USER = 'infelipe'
 # API_KEY = '03.760306854:e586732429bc5de4f356e1633e231be0'
 
+
 def read_yandex_key():
     yandex_api_key = None
 
