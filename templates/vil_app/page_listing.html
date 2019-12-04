@@ -1,7 +1,7 @@
 {% if pages %}
 <ul>
   {% for page in pages reversed %}
-  <li class="list-group-item">
+  <li class="list-group-item list-group-item-action">
     <a target="_blank" rel="noopener noreferrer" href="{{ page.url }}">{{ page.title }}</a>
     <br>
     <small> Agregado por {% if page.created_by %}{{ page.created_by.username }}{% else %}Anónimo{% endif %} el {{ page.fecha_agregado|date:"SHORT_DATE_FORMAT" }}</small>

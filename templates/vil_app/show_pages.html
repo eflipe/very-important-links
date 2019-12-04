@@ -26,7 +26,7 @@
             <ul class="list-group" id="page-listing">
               {% if categorias.page_set.all %}
               {% for page in categorias.page_set.all reversed %}
-              <li class="list-group-item">
+              <li class="list-group-item list-group-item-action">
                 <a target="_blank" rel="noopener noreferrer" href="{{ page.url }}">{{ page.title }}</a>
                 <br>
                 <small> Agregado por {% if page.created_by %}{{ page.created_by.username }}{% else %} Anónimo{% endif %} el {{ page.fecha_agregado|date:"SHORT_DATE_FORMAT" }}</small>
@@ -57,7 +57,7 @@
                 <input class="form-control" type="text" size="50" name="query" id="query" value="{{ query }}" />
               </div>
 
-              <button class="btn btn-primary" type="submit" name="submit">Search</button>
+              <button class="btn btn-primary mt-2" type="submit" name="submit">Search</button>
             </form>
           </div>
           <div>
