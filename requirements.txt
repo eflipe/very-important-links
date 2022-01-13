@@ -4,7 +4,7 @@ Django==2.1.5
 django-crispy-forms==1.7.2
 idna==2.8
 lxml==4.4.1
-Pillow==5.4.1
+Pillow==9.0.0
 pytz==2019.2
 requests==2.22.0
 six==1.12.0
